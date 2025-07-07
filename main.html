@@ -2,16 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Voting Eligibility Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voting Eligibility Check</title>
 </head>
 <body>
 
-  <h2>Check Voting Eligibility</h2>
+  <h2>Check Your Voting Eligibility</h2>
 
-  Name: <input type="text" id="name" /><br><br>
-  Age: <input type="number" id="age" /><br><br>
-  <input type="button" value="Submit" onclick="handleSubmit()" />
-  
+  <!-- 1️⃣ Form Inputs -->
+  <form id="votingForm">
+    <label for="age">Age:</label>
+    <input type="number" id="age" /><br><br>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" /><br><br>
+
+    <!-- Submit Button -->
+    <button id="btn" type="submit">Submit</button>
+  </form>
+
+  <script>
+    // 4️⃣ Full Functionality Flow
+    document.getElementById("votingForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const age = document.getElementById("age").value.trim();
+      const name = document.getElementById("name").value.trim();
+
+      // 2️⃣ Validation: Check empty inputs
+      if (age === "" || name === "") {
+        alert("Please enter valid details.");
+        return;
+      }
+
+      // 3️⃣ Promise Logic
+      const checkEligibility = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (parseInt(age) > 18) {
+            resolve(`Welcome, ${name}. You can vote.`);
+          } else {
+            reject(`Oh sorry ${name}. You aren't old enough.`);
+          }
+        }, 4000); // 4-second delay
+      });
+
+      // 5️⃣ Alert Handling
+      checkEligibility
+        .then((message) => alert(message))
+        .catch((errorMessage) => alert(errorMessage));
+    });
+  </script>
+
 </body>
 </html>
